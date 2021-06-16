@@ -1,0 +1,38 @@
+@using ToDoAppBlazor.Models
+
+<div class="todo-item">
+    <div class="@(ModelToDoItem.IsComplete ? "todo-item__text complete" : "todo-item__text")"
+         @onclick="@MarkAsComplete">
+        @ModelToDoItem.Title
+    </div>
+    <div class="todo-item__close" @onclick="@Remove">&times;</div>
+</div>
+
+@code{
+    [Parameter]
+    public ToDo ModelToDoItem { get; set; }
+
+    [Parameter]
+    public EventCallback SaveToDos { get; set; }
+
+    [Parameter]
+    public int Index { get; set; }
+
+    [Parameter]
+    public EventCallback<int> RemoveToDo { get; set; }
+
+    public void Remove()
+    {
+        RemoveToDo.InvokeAsync(Index);
+    }
+
+    /// <summary>
+    /// Tacha la palabra cliqueada
+    /// </summary>
+    /// <param name="toDo"></param>
+    public void MarkAsComplete()
+    {
+        ModelToDoItem.IsComplete = !(ModelToDoItem.IsComplete);
+        SaveToDos.InvokeAsync(null);
+    }
+}

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<ToDoMVC.Models.Task>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Lista de Tareas</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-controller="Task" asp-action="Create" class="btn btn-primary">
+                Crear tarea
+            </a> 
+        </div>
+    </div>
+    <br/>
+
+    @if(Model.Count() > 0)
+     {
+        <table class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>
+                        Tarea
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td width="30%">@item.Content</td>
+                        <td width="15%">
+                            <div class="w-100 btn-group" role="group">
+                                <a asp-controller="Task" asp-action="Update" asp-route-id="@item.Id" class="btn btn-primary mx-1">Editar</a>
+                                <a asp-controller="Task" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger mx-1">Borrar</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No hay tareas creadas por el momento</p>
+    }
+
+</div>

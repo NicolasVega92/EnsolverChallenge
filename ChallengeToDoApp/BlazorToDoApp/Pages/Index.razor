@@ -1,0 +1,80 @@
+﻿@page "/"
+@using ToDoAppBlazor.Models
+@using ToDoAppBlazor.Models
+@using Newtonsoft.Json
+
+@inject Blazored.LocalStorage.ILocalStorageService LocalStorage
+ 
+<div class="todo-container">
+    <h1>To Do App!</h1>
+    <div class="todo-input">
+        <input type="text" @bind="todoInput" /> <!--bindeo el string -->
+        <button @onclick="AddToDo">Add</button>
+    </div>
+
+    @for (int i = 0; i < todos.Count; i++)
+    {
+        var index = i;
+        var item = todos[index];
+        <div class="todo-item">
+            <div 
+                class="@(item.IsComplete ? "todo-item__text complete" : "todo-item__text")" 
+                @onclick="@(() => MarkAsComplete(item))">
+                @item.Title
+            </div>
+            <div class="todo-item__close" @onclick="@(() => RemoveToDo(index))">&times;</div>
+        </div>
+    }
+</div>
+
+@code
+{
+    /// <summary>
+    /// Obtiene lo ingresado en el textBox
+    /// </summary>
+    public string todoInput { get; set; }
+
+    /// <summary>
+    /// Lista que guarda todos los inputs
+    /// </summary>
+    public List<ToDo> todos = new List<ToDo>();
+
+    /// <summary>
+    /// Al presionar el boton ADD
+    /// </summary>
+    public void AddToDo()
+    {
+        ToDo todo = new ToDo();
+        todo.Title = todoInput;
+        //Console.WriteLine(todoInput);
+        todos.Add(todo);
+        todoInput = string.Empty;
+        SaveToDos();
+    }
+
+    /// <summary>
+    /// remueve de la lista el indice presionado
+    /// </summary>
+    /// <param name="index"></param>
+    public void RemoveToDo(int index)
+    {
+        todos.RemoveAt(index);
+    }
+
+    /// <summary>
+    /// Tacha la palabra cliqueada
+    /// </summary>
+    /// <param name="toDo"></param>
+    public void MarkAsComplete(ToDo toDo)
+    {
+        toDo.IsComplete = !(toDo.IsComplete);
+    }
+
+    /// <summary>
+    /// Almacena el objeto ToDo
+    /// </summary>
+    public void SaveToDos()
+    {
+        LocalStorage.SetItemAsync("SavedTodos", JsonConvert.SerializeObject(todos));
+    }
+}
