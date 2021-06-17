@@ -1,5 +1,5 @@
 # EnsolverChallenge
-- He creado 2 proyectos diferentes utilizando C#/ ASP.NET MVC / RAZOR 
+- He creado 2 proyectos diferentes utilizando C#/ ASP.NET MVC / SQL Server / RAZOR 
    ### 1 -> En la solucion ChallengeIndividual
   -  Cree los Modelos con DataAnnotation para luego poder hacer la migracion hacia la base de datos. (Task, Folder)
   -  Realice el DbContext en la carpeta Data dentro de la solución y estableci los DbSet
